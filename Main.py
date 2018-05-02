@@ -9,7 +9,7 @@ class MotionDaemon(Daemon):
     def run(self):
         counter = 0
         while True:
-            print("hello: " + counter)
+            print("hello: " + `counter`)
             counter += counter+1
             time.sleep(10)
 
