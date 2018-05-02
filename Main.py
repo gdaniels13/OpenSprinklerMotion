@@ -10,7 +10,12 @@ class MotionDaemon(Daemon):
         counter = 0
         while True:
             #print("hello: " + `counter`)
-            sys.stdout.write("hello: " + `counter`)
+            #sys.stdout.write("hello: " + `counter`)
+
+            f = open("/var/log/motionDaemonOutput.txt", "w+")
+            f.write("hello: " + `counter` + "\n")
+            f.close()
+
             counter += counter+1
             time.sleep(10)
 
