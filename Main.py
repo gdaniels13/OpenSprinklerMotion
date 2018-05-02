@@ -19,7 +19,7 @@ class MotionDaemon(Daemon):
 
 #(pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null')
 if __name__ == "__main__":
-    daemon = MotionDaemon( '/var/run/MotionDaemon.pid',sys.stdin,sys.stdout,sys.stderr)
+    daemon = MotionDaemon( '/var/run/MotionDaemon.pid',"/dev/null","/var/log/daemon.log","/var/log/daemon_error.log")
     if len(sys.argv) == 2:
         if 'start' == sys.argv[1]:
             daemon.start()
