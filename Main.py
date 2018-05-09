@@ -2,24 +2,27 @@
 
 from daemon import Daemon
 import sys,time
+import RPi.GPIO as GPIO
 
-
-
+FRONT_MOTION_CHANNEL = 16
+BACK_MOTION_CHANNEL = 19
+DEBOUNCE_TIME = 15000
 class MotionDaemon(Daemon):
+
     def run(self):
-        counter = 0
+        GPIO.cleanup() # may cause a warning but safer than the callback not getting set up correctly
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup([FRONT_MOTION_CHANNEL, BACK_MOTION_CHANNEL], GPIO.IN)
+        GPIO.add_event_detect(FRONT_MOTION_CHANNEL, GPIO.FALLING, callback=self.activate_sprinkler, bouncetime=DEBOUNCE_TIME)
+        GPIO.add_event_detect(BACK_MOTION_CHANNEL , GPIO.FALLING, callback=self.activate_sprinkler, bouncetime=DEBOUNCE_TIME)
         while True:
-            #print("hello: " + `counter`)
-            #sys.stdout.write("hello: " + `counter`)
+            time.sleep(10000);
 
-            f = open("/var/log/motionDaemonOutput.txt", "w+")
-            f.write("hello: " + `counter` + "\n")
-            f.close()
-
-            counter += counter+1
-            time.sleep(10)
-
-
+    def activate_sprinkler(self, channel):
+        # todo actually turn on the correct sprinkler zone here
+        f = open("/var/log/motionDaemonOutput.txt", "a")
+        f.write("channel: " + `channel` + " activated\n")
+        f.close()
 
 
 
