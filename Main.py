@@ -26,7 +26,7 @@ class MotionDaemon(Daemon):
         while True:
             time.sleep(10000);
             
-    def read_password():
+    def read_password(self):
         f = open("password.txt")
         PASSWORD=f.readline()
         f.close()
