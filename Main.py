@@ -44,7 +44,7 @@ class MotionDaemon(Daemon):
         response = requests.request("GET", url, params=querystring)
         log(response.text)
         
-    log(self,message):
+    def log(self,message):
         f = open("/var/log/motionDaemonOutput.txt", "a")
         f.write(message)
         f.close()
