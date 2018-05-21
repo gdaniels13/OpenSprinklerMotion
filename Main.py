@@ -17,7 +17,7 @@ SPRINKLER_URL = "http://localhost/cm"
 class MotionDaemon(Daemon):
 
     def run(self):
-        read_password()
+        self.ead_password()
         GPIO.cleanup() # may cause a warning but safer than the callback not getting set up correctly
         GPIO.setmode(GPIO.BCM)
         GPIO.setup([FRONT_MOTION_CHANNEL, BACK_MOTION_CHANNEL], GPIO.IN)
@@ -33,16 +33,16 @@ class MotionDaemon(Daemon):
         print(PASSWORD)
         
     def activate_sprinkler(self, channel):
-        log("channel: " + `channel` + " activated\n")
+        self.log("channel: " + `channel` + " activated\n")
         if channel==FRONT_MOTION_CHANNEL:
-            run_sprinkler(FRON_ZONE)
+            self.run_sprinkler(FRON_ZONE)
         elif channel==BACK_MOTION_CHANNEL:
-            run_sprinkler(BACK_ZONE)
+            self.run_sprinkler(BACK_ZONE)
 
     def run_sprinkler(self,zone):
         querystring = {"sid" : zone, "en" : "1", "t" : SPRINKLER_RUN_TIME, "pw" : PASSWORD}
         response = requests.request("GET", url, params=querystring)
-        log(response.text)
+        self.log(response.text)
         
     def log(self,message):
         f = open("/var/log/motionDaemonOutput.txt", "a")
