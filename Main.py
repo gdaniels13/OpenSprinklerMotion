@@ -17,7 +17,7 @@ SPRINKLER_URL = "http://localhost/cm"
 class MotionDaemon(Daemon):
 
     def run(self):
-        self.ead_password()
+        self.read_password()
         GPIO.cleanup() # may cause a warning but safer than the callback not getting set up correctly
         GPIO.setmode(GPIO.BCM)
         GPIO.setup([FRONT_MOTION_CHANNEL, BACK_MOTION_CHANNEL], GPIO.IN)
